@@ -4,7 +4,9 @@
   "description": "一个无需配置的动态表单，视图与逻辑的分离，跨终端的使用",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config config/webpack.config.js"
+    "build": "webpack --config config/webpack.config.prod.js --progress --profile",
+    "build:view": "webpack  --config config/webpack.config.prod.js",
+    "start": "webpack serve --config config/webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +20,17 @@
   },
   "homepage": "https://github.com/luyibiao/dynamic-forms#readme",
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "clean-webpack-plugin": "^4.0.0",
+    "drop-console-webpack-plugin": "^3.0.2",
+    "lodash": "^4.17.21",
+    "terser-webpack-plugin": "^5.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
     "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1"
-  }
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {}
 }
