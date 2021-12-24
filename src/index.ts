@@ -7,6 +7,7 @@ function aa() {
 }
 
 aa()
+console.log(11)
 
 export default {
   aa,
