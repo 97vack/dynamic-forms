@@ -9,8 +9,8 @@ module.exports = webpackMerge.merge(common, {
   mode: 'production',
   devtool: false,
   output: {
-    filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, '../public'),
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, '../dist'),
     library: {
       name: 'dynamicForms',
       type: 'umd',
@@ -24,18 +24,17 @@ module.exports = webpackMerge.merge(common, {
       new TerserPlugin({
         extractComments: false,
         terserOptions: {
-          compress: { pure_funcs: ['console.log'] },
+          // compress: { pure_funcs: ['console.log'] },
         },
       }),
     ],
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        defaultVendors: {
-          filename: '[name].bundle.js',
-        },
-      },
-    },
-    
+    // splitChunks: {
+    //   chunks: 'all',
+    //   cacheGroups: {
+    //     defaultVendors: {
+    //       filename: '[name].bundle.js',
+    //     },
+    //   },
+    // },
   },
 })

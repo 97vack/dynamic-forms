@@ -22,7 +22,7 @@ module.exports = webpackMerge.merge(common, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './test/index.html',
+      template: './public/index.html',
       inject: true,
       filename: 'index.html'
     }),

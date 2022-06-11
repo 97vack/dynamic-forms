@@ -2,31 +2,39 @@
   "name": "dynamic-forms",
   "version": "1.0.0",
   "description": "一个无需配置的动态表单，视图与逻辑的分离，跨终端的使用",
-  "main": "index.js",
+  "main": "dist/bundle.js",
+  "module": "src/index.js",
   "scripts": {
     "build": "webpack --config config/webpack.config.prod.js --progress --profile",
     "build:view": "webpack  --config config/webpack.config.prod.js",
-    "start": "webpack serve --config config/webpack.config.dev.js --progress"
+    "start": "webpack serve --config config/webpack.config.dev.js --progress",
+    "test": "webpack serve --config config/webpack.config.test.js --progress"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/luyibiao/dynamic-forms.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "九七Vack",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/luyibiao/dynamic-forms/issues"
   },
   "homepage": "https://github.com/luyibiao/dynamic-forms#readme",
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@types/lodash": "^4.14.178",
+    "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.7.1",
     "drop-console-webpack-plugin": "^3.0.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^5.5.0",
     "lodash": "^4.17.21",
     "portfinder": "^1.0.28",
+    "prettier": "2.6.2",
+    "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.3.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",

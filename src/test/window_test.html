@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../../dist/bundle.js?time=6"></script>
+</head>
+<body>
+  <form id="form">
+    <input type="text" data-ref="text" id="text">
+    <input type="text" data-ref="text1">
+    <input type="radio" value="1" data-ref="readio" checked name="radio">1
+    <input type="radio" value="2" data-ref="readio" name="radio">2
+
+    <select data-ref="select" id="select">
+      <option value="1">1</option>
+      <option value="15" selected>15</option>
+    </select>
+  </form>
+  <button id="btn">提交</button>
+</body>
+<script>
+  const formsP = {
+    text: 1,
+    text1: 2,
+    readio: '1',
+    select: '15'
+  }
+  const form = document.getElementById('form')
+  const ins= form.dySetControl(formsP)
+
+  const select = document.getElementById('select')
+  const text = document.getElementById('text')
+
+  const btn = document.getElementById('btn')
+
+  console.log(dynamicForms)
+
+  btn.addEventListener('click', function() {
+    const values = ins.getValues()
+    const { VER: { checkNum } } = dynamicForms
+    if (checkNum())
+  })
+  
+  setTimeout(() => {
+    formsP.text = 56
+    formsP.select = 1
+    formsP.readio = '2'
+  }, 1000)
+  
+</script>
+</html>

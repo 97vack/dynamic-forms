@@ -2,35 +2,48 @@
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const servers = require('./server')
 const portfinder = require('portfinder');
-
-// const aa = '8081'
-// (async ()=>{
-//      const port = await portfinder.getPortPromise();
-//      console.log(port, 'jjjkjjj656565655555555')
-// })();
-
-console.log(portfinder.getPortPromise(), '777777')
+const path = require('path');
+const resolve = dir => path.resolve(__dirname, dir);
 
 module.exports = {
   entry: './src/index.ts',
   module: {
     rules: [
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,//不转换的文件
+          use: [{
+              loader: 'babel-loader'
+          }]
+      },
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: [
+            { loader: "style-loader" },
+            { loader: "css-loader" }
+        ]
+      }
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@': resolve('../src'),
+      'types': resolve('../types'),
+      'instance': resolve('../src/instance'),
+      // 'util': resolve('../src/core/util')
+    }
   },
   plugins: [
     new FriendlyErrorsWebpackPlugin({
-      compilationSuccessInfo: {
-        messages: [`http://${servers.ServerHost}:${portfinder.getPortPromise()}`],
-        notes: [`22222222`]
-      },
+      // compilationSuccessInfo: {
+      //   messages: [`http://${servers.ServerHost}:${portfinder.getPortPromise()}`],
+      // },
       clearConsole: true,
     })
   ],
