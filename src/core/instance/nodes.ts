@@ -1,4 +1,5 @@
 import { HTMLElementExtennds, NodesInterface, NodesController } from 'types/nodes';
+import '@/styles/err-class.css';
 
 const Nodes: NodesController = class Nodes implements NodesInterface {
   $el: Element;
@@ -19,6 +20,11 @@ const Nodes: NodesController = class Nodes implements NodesInterface {
   }
   getChildren() {
     return Array.from(this.$el?.children || []) || [];
+  }
+  createErrWrap(msg: string) {
+    const div = document.createElement('div');
+    div.classList.add('dynamic-forms-err_item_wrap');
+    return div;
   }
 };
 

@@ -8,7 +8,20 @@
   <script src="../../dist/bundle.js?time=6"></script>
 </head>
 <body>
-  <form id="form">
+ 
+  <form id="form" data-ref="forms">
+    <input type="text" data-ref="text" id="text">
+    <input type="text" data-ref="text1">
+    <input type="radio" value="1" data-ref="readio" checked name="radio">1
+    <input type="radio" value="2" data-ref="readio" name="radio">2
+
+    <select data-ref="select" id="select">
+      <option value="1">1</option>
+      <option value="15" selected>15</option>
+    </select>
+  </form>
+
+  <form id="form1" data-ref="forms1">
     <input type="text" data-ref="text" id="text">
     <input type="text" data-ref="text1">
     <input type="radio" value="1" data-ref="readio" checked name="radio">1
@@ -28,20 +41,38 @@
     readio: '1',
     select: '15'
   }
+
+  const forms1 = {
+    text: 888
+  }
   const form = document.getElementById('form')
   const ins= form.dySetControl(formsP)
+  console.log(ins)
+
+  const form1 = document.getElementById('form1')
+  form1.dySetControl(forms1)
+  
 
   const select = document.getElementById('select')
   const text = document.getElementById('text')
 
   const btn = document.getElementById('btn')
 
-  console.log(dynamicForms)
+  console.log(dynamicForms) 
 
   btn.addEventListener('click', function() {
     const values = ins.getValues()
-    const { VER: { checkNum } } = dynamicForms
-    if (checkNum())
+    const { VERS: { checkNum } } = dynamicForms
+    const op = checkNum(formsP.text, {
+      required: { msg: 'aaaa' },
+      max: { value: 15, msg: '不能大于15' },
+      min: { value: 11, msg: '不能小于11' }
+    })
+    console.log(op, 'p[')
+    if (!op.isCheck) {
+      console.log(op)
+      ins.setVerMsg('text')
+    }
   })
   
   setTimeout(() => {

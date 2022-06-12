@@ -14,4 +14,5 @@ export interface NodesInterface {
   queryNode: (val: string) => any;
   queryNodes: (val: string) => any;
   getChildren: () => any;
+  createErrWrap: (msg: string) => any
 }

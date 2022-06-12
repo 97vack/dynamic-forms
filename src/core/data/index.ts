@@ -10,7 +10,7 @@ const getInstance = (() => {
   const getAttri = function (this: any) {
     return this.getAttribute(DATA_REF);
   };
-  return function (this: any, forms?: any) {
+  return function (this: HTMLElementExtennds, forms?: any) {
     if (!instacncs.length || !instacncs.some((v) => v.ref === getAttri.call(this))) {
       instacncs.push({ ref: getAttri.call(this), ins: new Controller(this, forms) });
       return instacncs[instacncs.length - 1].ins;
