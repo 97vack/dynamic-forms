@@ -26,3 +26,27 @@ export type MaxFn = VerT<MaxOptions>
 
 export type MinOptions = { min: number, msg?: string;  }
 export type MinFn = VerT<MinOptions>
+
+export type DataType = 
+'number' | 
+'email' | 
+'chTelStrict' | 
+'chTelEasy' | 
+'chTel' | 
+'landline' | 
+'url' | 
+'base64' | 
+'chineseName' | 
+'engName' | 
+'card' | 
+'accountNumber' | 
+'allChinese' | 
+'isHtml' | 
+'numbersOrLetters' | 
+'pureEnglish' | 
+'pureLowercaseEnglish' | 
+'pureCapitalizedEnglish' | 
+'pass' | 
+'money' | 
+'plateNumber' |
+ '' | undefined | null

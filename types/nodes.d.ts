@@ -10,9 +10,10 @@ export interface HTMLElementExtennds extends HTMLElement, HTMLInputElement {
 export interface NodesController { new (ctx: HTMLElementExtennds): NodesInterface; }
 
 export interface NodesInterface {
-  getAttribute: (name: string) => string | number;
+  getAttribute: (name: string) => string;
   queryNode: (val: string) => any;
   queryNodes: (val: string) => any;
   getChildren: () => any;
-  createErrWrap: (msg: string) => any
+  createErrWrap: (msg: string) => any;
+  resetErr: () => void;
 }

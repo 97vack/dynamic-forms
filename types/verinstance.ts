@@ -1,6 +1,11 @@
-import { ControllerSubInterface, ControllerInterface } from './controller'
-export interface VerinstanceConstructor { new (ctx: ControllerInterface | ControllerSubInterface, instance: any): VerinstanceInterface }
+import { NumFn, MaxFn, MinFn } from 'types/verification'
+import { DataType, VerResult } from 'types/verification'
 
-export interface VerinstanceInterface { 
-  setVerMsg: (key: string, msg?: string) => void;
- }
+export interface VerInstanceCtor { new (): VerInstance }
+export interface VerInstance {
+  validate(val: string | number, type?: DataType): VerResult;
+  emit(type: DataType): NumFn;
+  checkNum: NumFn;
+  checkMax: MaxFn;
+  checkMin: MinFn;
+}

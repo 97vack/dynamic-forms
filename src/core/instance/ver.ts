@@ -1,24 +1,38 @@
-import { VerinstanceConstructor, VerinstanceInterface } from 'types/verinstance';
-import { NodesInterface } from 'types/nodes';
-import { ControllerInterface, ControllerSubInterface } from 'types/controller';
-import Nodes from './nodes';
+import { VerInstance, VerInstanceCtor } from 'types/verinstance';
+import * as Vs from '@/core/vers';
+import { NumOptions, MaxOptions, MinOptions } from 'types/verification';
+import { DataType } from 'types/verification';
+import { setResult } from '@/core/vers/hander';
 
-const verinstance: VerinstanceConstructor = class verinstance implements VerinstanceInterface {
-  _nodes: NodesInterface;
-  constructor(public ctx: ControllerInterface | ControllerSubInterface, public forms: any) {
-    forms = forms;
-    ctx = ctx;
-    this._nodes = new Nodes(ctx.$el);
+type ArgsType = string | number;
+
+const Ver: VerInstanceCtor = class Ver implements VerInstance {
+  validate(val: ArgsType, type?: DataType) {
+    const fn = this.emit(type);
+    if (fn && typeof fn === 'function') {
+      return fn(val);
+    } else {
+      return setResult(true);
+    }
   }
-  verification() {}
-  createDiv() {
-    return this._nodes.createErrWrap();
+  emit(type: DataType) {
+    const fns = {
+      number: this.checkNum,
+    };
+    const getF = <T extends object, K extends keyof T>(obj: T, key: K) => {
+      return obj[key];
+    };
+    return getF(fns, type as any);
   }
-  setVerMsg(key: string, msg?: string) {
-    const ele = this.createErrWrap(msg);
-    this.$el.parentNode.replaceChild(ele, this.$el);
-    ele.appendChild(this.$el);
+  checkNum(val: ArgsType, options?: NumOptions) {
+    return Vs.checkNum(val, options);
+  }
+  checkMax(max: ArgsType, options?: MaxOptions) {
+    return Vs.checkMax(max, options);
+  }
+  checkMin(min: ArgsType, options?: MinOptions) {
+    return Vs.checkMin(min, options);
   }
 };
 
-export default verinstance;
+export default Ver;

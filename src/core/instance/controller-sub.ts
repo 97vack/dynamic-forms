@@ -1,37 +1,70 @@
-import { HTMLElementExtennds, NodesInterface } from 'types/nodes';
-import { ControllerSubConstructor, ControllerSubInterface } from 'types/controller';
-import { VerinstanceInterface } from 'types/verinstance';
-import verinstance from './ver';
+import { ControllerSubCtor, ControllerSubIns } from 'types/controller';
+import VerInstances from './ver';
+import { VerInstance } from 'types/verinstance';
+import { DataType, VerResult } from 'types/verification';
+import { isMeaningful } from '@/core/util/helper';
+import { DATA_TYPES } from '@/core/util/static-variable';
+import { cloneDeep } from 'lodash';
+import { DepIns } from 'types/dep';
+import { setResult } from '../vers';
 
-const ControllerSub: ControllerSubConstructor = class ControllerSub implements ControllerSubInterface {
-  $el: HTMLElementExtennds;
+const ControllerSub: ControllerSubCtor = class ControllerSub implements ControllerSubIns {
   _forms: any;
   _refKey: string;
-  verInstance: VerinstanceInterface;
-  _nodes: NodesInterface;
-  constructor(ctx: HTMLElementExtennds, forms: any, key: string) {
-    this.$el = ctx;
-    this._forms = forms;
+  _is_err: boolean = false;
+  verInstance: VerInstance;
+  dataType: DataType[];
+  innerValue: string | number;
+  dep: DepIns;
+  constructor(key: string, forms: any) {
     this._refKey = key;
-    this.verInstance = new verinstance(this, forms);
-    this.subscriptionTo();
+    this._forms = forms;
+    this.verInstance = new VerInstances();
   }
-  input(this: ControllerSub, e: any) {
-    this._forms[this._refKey] = e.target.value;
+  changeInnerValue(val: string | number) {
+    this.innerValue = val;
   }
-  subscriptionTo() {
-    this.$el.addEventListener('input', this.input.bind(this));
-  }
-  update(newValue: any) {
-    if (this.$el.type === 'radio') {
-      this.$el.checked = this.$el.value === newValue;
-    } else {
-      this.$el.value = newValue;
+  changeDataType(val: string) {
+    if (isMeaningful(val)) {
+      const splitV: DataType[] = (val.split(',') || []).map((v) => v.trim()) as DataType[];
+      console.log(splitV);
+      const vs = splitV.filter((v) => DATA_TYPES.includes(v as DataType));
+      const vsn = splitV.filter((v) => !DATA_TYPES.includes(v as DataType));
+      if (vsn && vsn.length) {
+        console.warn(`${vsn.join(',')} exists on data-ref="${this._refKey}", which does not belong to ${DATA_TYPES.join(',')}`);
+      }
+      this.dataType = cloneDeep(vs);
     }
   }
-
-  setVerMsg(key: string, msg: string) {
-    this.verInstance.setVerMsg(key, msg);
+  changeErrStatus(val: boolean) {
+    this._is_err = val;
+  }
+  changeDep(ins: DepIns) {
+    this.dep = ins;
+  }
+  emitErr(msg: VerResult) {
+    this.dep.emitErr('watchErr', msg);
+  }
+  validate(v?: DataType) {
+    if (!this.dataType || !this.dataType.length) {
+      this.changeErrStatus(false);
+      return !this._is_err;
+    }
+    for (let i = 0; i < this.dataType.length; i++) {
+      const v = this.dataType[i];
+      const result = this.verInstance.validate(this.innerValue, v);
+      if (!result.isCheck) {
+        this._is_err = true;
+        this.emitErr(result);
+        break;
+      } else {
+        this._is_err = false;
+      }
+    }
+    if (!this._is_err) {
+      this.emitErr(setResult(true));
+    }
+    return !this._is_err;
   }
 };
 

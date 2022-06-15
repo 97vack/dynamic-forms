@@ -1,1 +1,1 @@
-export const isMeaningful = (val: any) => val !== '' && val !== undefined && val !== undefined;
+export const isMeaningful = (val: any) => val !== '' && val !== undefined && val !== null;

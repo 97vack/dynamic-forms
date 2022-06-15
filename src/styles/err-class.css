@@ -1,3 +1,7 @@
 .dynamic-forms-err_item_wrap {
   display: inline-block;
 }
+.dynamic-forms-err_item_err-wrap {
+  color: red;
+  font-size: 12px;
+}

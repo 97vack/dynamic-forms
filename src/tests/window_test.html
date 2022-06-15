@@ -10,28 +10,24 @@
 <body>
  
   <form id="form" data-ref="forms">
-    <input type="text" data-ref="text" id="text">
-    <input type="text" data-ref="text1">
-    <input type="radio" value="1" data-ref="readio" checked name="radio">1
-    <input type="radio" value="2" data-ref="readio" name="radio">2
+    <input type="text" data-ref="text" id="text" data-type="number, hg">
+    <div>
+      <input type="text" data-ref="text1" data-type="number">
+    </div>
+    <div>
+      <input type="radio" value="1" data-ref="readio"  name="radio">1
+      <input type="radio" value="2" data-ref="readio" name="radio">2
+    </div>
 
-    <select data-ref="select" id="select">
-      <option value="1">1</option>
-      <option value="15" selected>15</option>
-    </select>
+    <div>
+      <select data-ref="select" id="select">
+        <option value="1">1</option>
+        <option value="15" selected>15</option>
+      </select>
+    </div>
   </form>
 
-  <form id="form1" data-ref="forms1">
-    <input type="text" data-ref="text" id="text">
-    <input type="text" data-ref="text1">
-    <input type="radio" value="1" data-ref="readio" checked name="radio">1
-    <input type="radio" value="2" data-ref="readio" name="radio">2
-
-    <select data-ref="select" id="select">
-      <option value="1">1</option>
-      <option value="15" selected>15</option>
-    </select>
-  </form>
+ 
   <button id="btn">提交</button>
 </body>
 <script>
@@ -41,45 +37,33 @@
     readio: '1',
     select: '15'
   }
-
-  const forms1 = {
-    text: 888
-  }
   const form = document.getElementById('form')
   const ins= form.dySetControl(formsP)
-  console.log(ins)
-
-  const form1 = document.getElementById('form1')
-  form1.dySetControl(forms1)
-  
-
-  const select = document.getElementById('select')
-  const text = document.getElementById('text')
 
   const btn = document.getElementById('btn')
-
-  console.log(dynamicForms) 
 
   btn.addEventListener('click', function() {
     const values = ins.getValues()
     const { VERS: { checkNum } } = dynamicForms
-    const op = checkNum(formsP.text, {
-      required: { msg: 'aaaa' },
-      max: { value: 15, msg: '不能大于15' },
-      min: { value: 11, msg: '不能小于11' }
-    })
-    console.log(op, 'p[')
-    if (!op.isCheck) {
-      console.log(op)
-      ins.setVerMsg('text')
-    }
+    console.log(ins.validate())
+    // const op = checkNum(formsP.text, {
+    //   required: { msg: '不能为空' },
+    //   max: { value: 15, msg: '不能大于15' },
+    //   min: { value: 11, msg: '不能小于11' }
+    // })
+    // if (!op.isCheck) {
+    //   ins.setErrmsg('text', op.msg)
+    // } else {
+    //   console.log('asaasf')
+    //   ins.setErrmsg('text')
+    // }
   })
   
-  setTimeout(() => {
-    formsP.text = 56
-    formsP.select = 1
-    formsP.readio = '2'
-  }, 1000)
+  // setTimeout(() => {
+  //   formsP.text = 56
+  //   formsP.select = 1
+  //   formsP.readio = '2'
+  // }, 1000)
   
 </script>
 </html>
